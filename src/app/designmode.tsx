@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function ToggleDesignmode() {
 	const [designMode, setDesignMode] = useState(false);
 	return (
-		<button
-			className="rounded bg-gray-800 px-4 py-2 text-white"
+		<Button
 			onClick={() => {
 				if (document.designMode === "on") {
 					document.designMode = "off";
@@ -18,6 +18,6 @@ export function ToggleDesignmode() {
 			}}
 		>
 			Toggle Designmode ({designMode ? "on" : "off"})
-		</button>
+		</Button>
 	);
 }
