@@ -6,7 +6,10 @@ export function ClientContent() {
 
 	return (
 		<>
-			<p id="test1234">
+			<p
+				id="test1234"
+				className="p-2 outline outline-2 outline-purple-500"
+			>
 				{content === undefined
 					? "loading..."
 					: content === null

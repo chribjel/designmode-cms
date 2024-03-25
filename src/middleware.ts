@@ -8,6 +8,7 @@ export default async function middleware() {
 	if (!designmodeCMSCookie) {
 		res.cookies.set("designmodeCMS", crypto.randomUUID(), {
 			secure: true,
+			expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
 		});
 	}
 	return res;
