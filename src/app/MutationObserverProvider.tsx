@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useEffect, useState } from "react";
+import { getCMSContent, setCMSContent } from "./api/cms/service.client";
 
 const MutationObserverContext = createContext(null);
 
@@ -17,13 +18,7 @@ export function MutationObserverProvider({
 						const id = mutation.target.parentElement?.id;
 						const content = mutation.target.textContent;
 						if (id && content) {
-							fetch(`/api/cms`, {
-								method: "POST",
-								body: JSON.stringify({
-									id,
-									content,
-								}),
-							});
+							setCMSContent(id, content);
 						}
 						break;
 					default:
@@ -49,7 +44,7 @@ export function MutationObserverProvider({
 export function useContent(id: string) {
 	const [content, setContent] = useState<string | null | undefined>(undefined);
 	useEffect(() => {
-		fetch(`/api/cms/${id}`).then((res) => {
+		getCMSContent(id).then((res) => {
 			if (res.ok) {
 				res.text().then((text) => {
 					setContent(text);

@@ -1,12 +1,12 @@
-import { kv } from "@vercel/kv";
 import { ToggleDesignmode } from "./designmode";
 import { ClientContent } from "./ClientContent";
+import { getCMSContent } from "./api/cms/service.server";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
 	const contentId = "test123";
-	const content = await kv.get<string>(contentId);
+	const content = await getCMSContent(contentId);
 
 	return (
 		<main className="flex min-h-screen flex-col items-center p-24">
