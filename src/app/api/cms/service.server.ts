@@ -1,14 +1,18 @@
 import "server-only";
 import { kv } from "@vercel/kv";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export async function getCMSContent(id: string) {
-	const c = cookies().get("designmodeCMS");
-	if (!c) {
-		throw new Error("Unauthorized");
+	let designModeCMS = cookies().get("designmodeCMS")?.value;
+	if (!designModeCMS) {
+		designModeCMS = headers()
+			.get("Set-Cookie")
+			?.match(/designmodeCMS=([^;]*)/)?.[1];
+		if (!designModeCMS) {
+			throw new Error("Unauthorized");
+		}
 	}
-	const cVal = c.value;
-	const content = await kv.get<string>(`${cVal}-${id}`);
+	const content = await kv.get<string>(`${designModeCMS}-${id}`);
 	return content;
 }
 
